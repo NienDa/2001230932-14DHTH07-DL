@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân loại 102 loài hoa bằng CNN thuần</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="page">
+        <header class="hero">
+            <div>
+                <p class="eyebrow">Deep Learning Midterm Project</p>
+                <h1>Phân loại 102 loài hoa bằng CNN thuần</h1>
+                <p class="desc">
+                    Hệ thống demo sử dụng mô hình CNN tự xây dựng để nhận diện ảnh hoa
+                    thuộc bộ dữ liệu Oxford 102 Flowers.
+                </p>
+            </div>
+
+            <div class="badge">
+                CNN<br>Pure Model
+            </div>
+        </header>
+
+        <main class="main-grid">
+            <section class="card">
+                <div class="card-title">
+                    <div>
+                        <p class="label">Input</p>
+                        <h2>Chọn ảnh hoa</h2>
+                    </div>
+                    <span class="step">01</span>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data" class="upload-form">
+                    <label class="file-box">
+                        <input type="file" name="image" accept="image/*" required>
+                        <span class="file-icon">📷</span>
+                        <span>
+                            <strong>Tải ảnh lên</strong>
+                            <small>JPG, JPEG, PNG, BMP</small>
+                        </span>
+                    </label>
+
+                    <button type="submit">Dự đoán</button>
+                </form>
+
+                {% if image_url %}
+                    <div class="preview">
+                        <img src="{{ image_url }}" alt="Ảnh đã chọn">
+                    </div>
+                {% else %}
+                    <div class="empty-box">
+                        <div>
+                            <span>🌸</span>
+                            <p>Ảnh hoa sẽ hiển thị tại đây</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </section>
+
+            <section class="card">
+                <div class="card-title">
+                    <div>
+                        <p class="label">Output</p>
+                        <h2>Kết quả dự đoán</h2>
+                    </div>
+                    <span class="step">02</span>
+                </div>
+
+                {% if result %}
+                    <div class="result-box">
+                        <p>Loài hoa dự đoán</p>
+                        <h3>{{ result }}</h3>
+
+                        {% if confidence %}
+                            <div class="confidence">
+                                <span>Độ tin cậy</span>
+                                <strong>{{ "%.2f"|format(confidence) }}%</strong>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if top_predictions %}
+                        <div class="top-list">
+                            <div class="top-header">
+                                <h4>Top 5 xác suất cao nhất</h4>
+                                <span>Softmax probability</span>
+                            </div>
+
+                            {% for item in top_predictions %}
+                                <div class="prediction-item">
+                                    <div class="prediction-row">
+                                        <span>{{ item.name }}</span>
+                                        <strong>{{ item.prob }}%</strong>
+                                    </div>
+
+                                    <div class="bar">
+                                        <div class="bar-fill" data-width="{{ item.prob }}"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="empty-box">
+                        <div>
+                            <span>🤖</span>
+                            <p>Kết quả sẽ hiển thị sau khi chọn ảnh và nhấn dự đoán.</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </section>
+        </main>
+
+        <section class="info-strip">
+            <div>
+                <span>Model</span>
+                <strong>CNN thuần</strong>
+            </div>
+            <div>
+                <span>Dataset</span>
+                <strong>Oxford 102 Flowers</strong>
+            </div>
+            <div>
+                <span>Input size</span>
+                <strong>224 × 224 × 3</strong>
+            </div>
+            <div>
+                <span>Output</span>
+                <strong>102 classes</strong>
+            </div>
+        </section>
+
+        <footer>
+            Đồ án giữa kỳ Deep Learning · Flower Classification System
+        </footer>
+    </div>
+
+    <script>
+        document.querySelectorAll(".bar-fill").forEach(function(bar) {
+            const value = bar.getAttribute("data-width");
+            bar.style.width = value + "%";
+        });
+    </script>
+</body>
+</html>

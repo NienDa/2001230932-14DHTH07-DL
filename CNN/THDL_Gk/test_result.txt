@@ -1,0 +1,8 @@
+Test Accuracy: 0.3680
+Test Loss: 2.3974
+Num Classes: 102
+Image Size: (224, 224)
+Batch Size: 32
+Epochs: 10
+Learning Rate: 0.0005
+Model: Pure CNN

@@ -1,0 +1,27 @@
+{
+    "dataset": "Oxford 102 Flowers",
+    "dataset_dir": "N:\\Nam3\\HK2\\THDeepLearn\\LamLai\\THDL_Cnn\\flower_data",
+    "model": "Pure CNN",
+    "num_classes": 102,
+    "image_size": [
+        224,
+        224
+    ],
+    "batch_size": 32,
+    "epochs": 10,
+    "learning_rate": 0.0005,
+    "optimizer": "Adam",
+    "loss": "Sparse Categorical Crossentropy",
+    "note": "CNN thuan, khong dung pretrained model, khong Transfer Learning",
+    "architecture": [
+        "Input(224, 224, 3)",
+        "Rescaling(1/255)",
+        "Conv2D(32) + MaxPooling2D",
+        "Conv2D(64) + MaxPooling2D",
+        "Conv2D(128) + MaxPooling2D",
+        "Conv2D(256) + MaxPooling2D",
+        "GlobalAveragePooling2D",
+        "Dense(256, ReLU)",
+        "Dense(102, Softmax)"
+    ]
+}
