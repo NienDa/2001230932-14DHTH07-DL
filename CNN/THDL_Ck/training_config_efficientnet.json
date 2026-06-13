@@ -1,0 +1,17 @@
+{
+    "dataset": "Oxford 102 Flowers",
+    "dataset_dir": "N:\\Nam3\\HK2\\THDeepLearn\\LamLai\\THDL_Ck\\flower_data",
+    "model": "EfficientNetB0 + Transfer Learning",
+    "training_type": "Feature Extraction only, no fine-tuning",
+    "num_classes": 102,
+    "image_size": [
+        224,
+        224
+    ],
+    "batch_size": 32,
+    "epochs": 15,
+    "learning_rate": 0.001,
+    "optimizer": "Adam",
+    "loss": "Sparse Categorical Crossentropy",
+    "note": "EfficientNetB0 duoc dong bang, chi train cac lop classifier moi de bieu do muot hon"
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân loại 102 loài hoa - EfficientNetB0</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="background-blur blur-1"></div>
+    <div class="background-blur blur-2"></div>
+
+    <div class="page">
+        <header class="hero">
+            <div class="hero-content">
+                <p class="eyebrow">Deep Learning Final Project</p>
+
+                <h1>
+                    Phân loại 102 loài hoa bằng
+                    <span>EfficientNetB0</span>
+                </h1>
+
+                <p class="hero-desc">
+                    Hệ thống sử dụng EfficientNetB0 kết hợp Transfer Learning
+                    để nhận diện và phân loại ảnh hoa thuộc bộ dữ liệu Oxford 102 Flowers.
+                </p>
+
+                <div class="hero-tags">
+                    <span>Python</span>
+                    <span>TensorFlow/Keras</span>
+                    <span>EfficientNetB0</span>
+                    <span>Transfer Learning</span>
+                </div>
+            </div>
+
+            <div class="hero-card">
+                <div class="flower-icon">🌸</div>
+                <p>Oxford</p>
+                <strong>102 Flowers</strong>
+            </div>
+        </header>
+
+        <main class="main-grid">
+            <section class="panel upload-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="section-label">Input</p>
+                        <h2>Chọn ảnh hoa</h2>
+                    </div>
+                    <div class="step-number">01</div>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data" class="upload-form">
+                    <label class="file-box">
+                        <input type="file" name="image" accept="image/*" required>
+                        <span class="file-icon">📷</span>
+                        <span class="file-title">Tải ảnh lên</span>
+                        <span class="file-note">JPG, JPEG, PNG, BMP</span>
+                    </label>
+
+                    <button type="submit">
+                        Dự đoán loài hoa
+                    </button>
+                </form>
+
+                {% if image_url %}
+                    <div class="preview">
+                        <img src="{{ image_url }}" alt="Ảnh đã chọn">
+                    </div>
+                {% else %}
+                    <div class="empty-preview">
+                        <div>
+                            <span>🌼</span>
+                            <p>Ảnh sẽ hiển thị tại đây</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </section>
+
+            <section class="panel result-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="section-label">Output</p>
+                        <h2>Kết quả dự đoán</h2>
+                    </div>
+                    <div class="step-number">02</div>
+                </div>
+
+                {% if result %}
+                    <div class="result-box">
+                        <p class="result-label">Loài hoa dự đoán</p>
+                        <h3>{{ result }}</h3>
+
+                        {% if confidence %}
+                            <div class="confidence-card">
+                                <span>Độ tin cậy</span>
+                                <strong>{{ "%.2f"|format(confidence) }}%</strong>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if top_predictions %}
+                        <div class="top-list">
+                            <div class="top-title">
+                                <h4>Top 5 xác suất cao nhất</h4>
+                                <span>Softmax probability</span>
+                            </div>
+
+                            {% for item in top_predictions %}
+                                <div class="prediction-item">
+                                    <div class="prediction-row">
+                                        <span>{{ item.name }}</span>
+                                        <strong>{{ item.prob }}%</strong>
+                                    </div>
+
+                                    <div class="bar">
+                                        <div class="bar-fill" data-width="{{ item.prob }}"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="empty-result">
+                        <div>
+                            <span>🤖</span>
+                            <p>
+                                Sau khi chọn ảnh và nhấn dự đoán, hệ thống sẽ hiển thị
+                                tên loài hoa, độ tin cậy và top 5 xác suất cao nhất.
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            </section>
+        </main>
+
+        <section class="info-strip">
+            <div>
+                <span>Model</span>
+                <strong>EfficientNetB0</strong>
+            </div>
+
+            <div>
+                <span>Technique</span>
+                <strong>Transfer Learning</strong>
+            </div>
+
+            <div>
+                <span>Dataset</span>
+                <strong>Oxford 102 Flowers</strong>
+            </div>
+
+            <div>
+                <span>Input Size</span>
+                <strong>224 × 224 × 3</strong>
+            </div>
+        </section>
+
+        <footer class="footer">
+            Đồ án cuối kỳ Deep Learning · Flower Classification System
+        </footer>
+    </div>
+
+    <script>
+        document.querySelectorAll(".bar-fill").forEach(function(bar) {
+            const value = bar.getAttribute("data-width");
+            bar.style.width = value + "%";
+        });
+    </script>
+</body>
+</html>
